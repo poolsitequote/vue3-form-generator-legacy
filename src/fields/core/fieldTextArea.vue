@@ -13,6 +13,7 @@
     :required="schema.required"
     :rows="schema.rows || 2"
     :name="schema.inputName"
+    @input="textareaResize"
     @blur="onBlur"
   />
 </template>
@@ -25,6 +26,9 @@ export default {
   name: 'FieldTextArea',
   mixins: [ abstractField ],
   methods: {
+    textareaResize(event) {
+      this.$el.style.height = this.$el.scrollHeight + 'px'
+    },
     onBlur (e) {
       this.$emit('blur', e.target.value, this.schema.model)
     }

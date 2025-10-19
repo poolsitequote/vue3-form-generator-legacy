@@ -17,14 +17,42 @@
       </template>
     </fieldset>
 
-    <template v-for="group in groups" :key="group">
+    <template v-for="(group, key) in groups" :key="key">
       <fieldset :is="tag" v-if="groupVisible(group)" :class="getFieldRowClasses(group)">
         <legend v-if="group.legend">
           {{ group.legend }}
+          <i
+            :class="showCollapse[key] ? 'fa fa-chevron-up' : 'fa fa-chevron-down'"
+            :aria-controls="'collapse' + key"
+            :aria-expanded="showCollapse[key] ? 'true' : 'false'"
+            @click="toggleList(key)"
+          />
         </legend>
+        <b-collapse :id="'collapse'+key" v-model="showCollapse[key]" class="mt-2">
+          <template v-for="field in group.fields" :key="field">
+            <form-group
+              v-if="fieldVisible(field) && !showAlways(field)"
+              ref="children"
+              :vfg="vfg"
+              :field="field"
+              :errors="errors"
+              :model="model"
+              :options="options"
+              @blur="onBlur"
+              @validated="onFieldValidated"
+              @model-updated="onModelUpdated"
+            />
+          </template>
+          <i
+            :class="showCollapse[key] ? 'fa fa-chevron-up pull-right' : 'fa fa-chevron-down pull-right'"
+            :aria-controls="'collapse' + key"
+            :aria-expanded="showCollapse[key] ? 'true' : 'false'"
+            @click="toggleList(key)"
+          />
+        </b-collapse>
         <template v-for="field in group.fields" :key="field">
           <form-group
-            v-if="fieldVisible(field)"
+            v-if="fieldVisible(field) && showAlways(field)"
             ref="children"
             :vfg="vfg"
             :field="field"
@@ -92,6 +120,7 @@ export default {
   data() {
     return {
       vfg: this,
+      showCollapse: [],
       errors: [], // Validation errors,
       children: ref([])
     }
@@ -161,6 +190,18 @@ export default {
   },
 
   methods: {
+    /**
+     * check if we have to show the input all the time
+     */
+    showAlways(field) {
+      return !isNil(field.showAlways)
+    },
+    /**
+     * open and close groups
+     */
+    toggleList: function (key) {
+      this.showCollapse[key] = !this.showCollapse[key]
+    },
     /**
      * Determine visibility of the field.
      * @param field
@@ -337,6 +378,14 @@ export default {
 	* {
 		box-sizing: border-box;
 	}
+
+  legend i {
+    float: right;
+    margin-top: 9px;
+    margin-right: 6px;
+    font-size: 18px;
+    cursor: pointer; // Add cursor pointer for better UX
+  }
 
 	.form-control {
 		// Default Bootstrap .form-control style

@@ -729,10 +729,10 @@
         }();
         var ctxClearTimeout = context.clearTimeout !== root.clearTimeout && context.clearTimeout, ctxNow = Date2 && Date2.now !== root.Date.now && Date2.now, ctxSetTimeout = context.setTimeout !== root.setTimeout && context.setTimeout;
         var nativeCeil = Math2.ceil, nativeFloor = Math2.floor, nativeGetSymbols = Object2.getOwnPropertySymbols, nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined$1, nativeIsFinite = context.isFinite, nativeJoin = arrayProto.join, nativeKeys = overArg(Object2.keys, Object2), nativeMax = Math2.max, nativeMin = Math2.min, nativeNow = Date2.now, nativeParseInt = context.parseInt, nativeRandom = Math2.random, nativeReverse = arrayProto.reverse;
-        var DataView = getNative(context, "DataView"), Map = getNative(context, "Map"), Promise2 = getNative(context, "Promise"), Set = getNative(context, "Set"), WeakMap = getNative(context, "WeakMap"), nativeCreate = getNative(Object2, "create");
+        var DataView = getNative(context, "DataView"), Map2 = getNative(context, "Map"), Promise2 = getNative(context, "Promise"), Set2 = getNative(context, "Set"), WeakMap = getNative(context, "WeakMap"), nativeCreate = getNative(Object2, "create");
         var metaMap = WeakMap && new WeakMap();
         var realNames = {};
-        var dataViewCtorString = toSource(DataView), mapCtorString = toSource(Map), promiseCtorString = toSource(Promise2), setCtorString = toSource(Set), weakMapCtorString = toSource(WeakMap);
+        var dataViewCtorString = toSource(DataView), mapCtorString = toSource(Map2), promiseCtorString = toSource(Promise2), setCtorString = toSource(Set2), weakMapCtorString = toSource(WeakMap);
         var symbolProto = Symbol2 ? Symbol2.prototype : undefined$1, symbolValueOf = symbolProto ? symbolProto.valueOf : undefined$1, symbolToString = symbolProto ? symbolProto.toString : undefined$1;
         function lodash2(value) {
           if (isObjectLike(value) && !isArray(value) && !(value instanceof LazyWrapper)) {
@@ -977,7 +977,7 @@
           this.size = 0;
           this.__data__ = {
             "hash": new Hash(),
-            "map": new (Map || ListCache)(),
+            "map": new (Map2 || ListCache)(),
             "string": new Hash()
           };
         }
@@ -1042,7 +1042,7 @@
           var data = this.__data__;
           if (data instanceof ListCache) {
             var pairs = data.__data__;
-            if (!Map || pairs.length < LARGE_ARRAY_SIZE - 1) {
+            if (!Map2 || pairs.length < LARGE_ARRAY_SIZE - 1) {
               pairs.push([key, value]);
               this.size = ++data.size;
               return this;
@@ -2486,8 +2486,8 @@
             return func(number);
           };
         }
-        var createSet = !(Set && 1 / setToArray(new Set([, -0]))[1] == INFINITY) ? noop : function(values2) {
-          return new Set(values2);
+        var createSet = !(Set2 && 1 / setToArray(new Set2([, -0]))[1] == INFINITY) ? noop : function(values2) {
+          return new Set2(values2);
         };
         function createToPairs(keysFunc) {
           return function(object) {
@@ -2786,7 +2786,7 @@
           return result2;
         };
         var getTag = baseGetTag;
-        if (DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag || Map && getTag(new Map()) != mapTag || Promise2 && getTag(Promise2.resolve()) != promiseTag || Set && getTag(new Set()) != setTag || WeakMap && getTag(new WeakMap()) != weakMapTag) {
+        if (DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag || Map2 && getTag(new Map2()) != mapTag || Promise2 && getTag(Promise2.resolve()) != promiseTag || Set2 && getTag(new Set2()) != setTag || WeakMap && getTag(new WeakMap()) != weakMapTag) {
           getTag = function(value) {
             var result2 = baseGetTag(value), Ctor = result2 == objectTag ? value.constructor : undefined$1, ctorString = Ctor ? toSource(Ctor) : "";
             if (ctorString) {
@@ -6400,24 +6400,23 @@
   };
   const _sfc_main$n = {
     name: "FieldCheckbox",
-    mixins: [abstractField]
+    mixins: [abstractField],
+    methods: {
+      onChange() {
+        this.value = Boolean(this.value);
+        this.value = !this.value;
+      }
+    }
   };
-  const _hoisted_1$m = ["id", "autocomplete", "disabled", "name", "required"];
+  const _hoisted_1$m = ["id", "value", "disabled"];
   function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
-    const _directive_attributes = vue.resolveDirective("attributes");
-    return vue.withDirectives((vue.openBlock(), vue.createElementBlock("input", {
+    return vue.openBlock(), vue.createElementBlock("span", {
       id: _ctx.getFieldID(_ctx.schema),
-      "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.value = $event),
-      type: "checkbox",
-      autocomplete: _ctx.schema.autocomplete,
-      disabled: _ctx.disabled || null,
-      name: _ctx.schema.inputName,
-      class: vue.normalizeClass(_ctx.schema.fieldClasses),
-      required: _ctx.schema.required
-    }, null, 10, _hoisted_1$m)), [
-      [vue.vModelCheckbox, _ctx.value],
-      [_directive_attributes, "input"]
-    ]);
+      class: vue.normalizeClass(["checkbox", { active: _ctx.value }]),
+      value: _ctx.value,
+      disabled: _ctx.disabled,
+      onClick: _cache[0] || (_cache[0] = (...args) => $options.onChange && $options.onChange(...args))
+    }, vue.toDisplayString(_ctx.schema.label), 11, _hoisted_1$m);
   }
   const fieldCheckbox = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$n]]);
   const _sfc_main$m = {
@@ -6501,15 +6500,14 @@
   };
   const _hoisted_1$l = { class: "wrapper" };
   const _hoisted_2$a = ["disabled"];
-  const _hoisted_3$8 = ["id", "checked", "disabled", "name", "onChange"];
+  const _hoisted_3$6 = ["id", "checked", "disabled", "name", "onChange"];
   const _hoisted_4$3 = ["disabled"];
   const _hoisted_5$2 = { class: "info" };
-  const _hoisted_6$1 = /* @__PURE__ */ vue.createElementVNode("div", { class: "arrow" }, null, -1);
-  const _hoisted_7$1 = {
+  const _hoisted_6$2 = {
     key: 0,
     class: "dropList"
   };
-  const _hoisted_8$1 = ["id", "checked", "disabled", "name", "onChange"];
+  const _hoisted_7$1 = ["id", "checked", "disabled", "name", "onChange"];
   function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
     const _directive_attributes = vue.resolveDirective("attributes");
     return vue.withDirectives((vue.openBlock(), vue.createElementBlock("div", _hoisted_1$l, [
@@ -6531,7 +6529,7 @@
                 disabled: _ctx.disabled || null,
                 name: $options.getInputName(item),
                 onChange: ($event) => $options.onChanged($event, item)
-              }, null, 40, _hoisted_3$8), [
+              }, null, 40, _hoisted_3$6), [
                 [_directive_attributes, "input"]
               ]),
               vue.createTextVNode(" " + vue.toDisplayString($options.getItemName(item)), 1)
@@ -6549,9 +6547,9 @@
           onClick: _cache[0] || (_cache[0] = (...args) => $options.onExpandCombo && $options.onExpandCombo(...args))
         }, [
           vue.createElementVNode("div", _hoisted_5$2, vue.toDisplayString($options.selectedCount) + " selected ", 1),
-          _hoisted_6$1
+          _cache[1] || (_cache[1] = vue.createElementVNode("div", { class: "arrow" }, null, -1))
         ], 2),
-        $data.comboExpanded ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_7$1, [
+        $data.comboExpanded ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$2, [
           (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList($options.items, (item) => {
             return vue.openBlock(), vue.createElementBlock("div", {
               key: item,
@@ -6565,7 +6563,7 @@
                   disabled: _ctx.disabled || null,
                   name: $options.getInputName(item),
                   onChange: ($event) => $options.onChanged($event, item)
-                }, null, 40, _hoisted_8$1), [
+                }, null, 40, _hoisted_7$1), [
                   [_directive_attributes, "input"]
                 ]),
                 vue.createTextVNode(" " + vue.toDisplayString($options.getItemName(item)), 1)
@@ -6707,7 +6705,7 @@
   };
   const _hoisted_1$k = { class: "wrapper" };
   const _hoisted_2$9 = ["id", "type", "value", "disabled", "accept", "alt", "autocomplete", "checked", "dirname", "formaction", "formenctype", "name", "formmethod", "formnovalidate", "formtarget", "height", "list", "max", "maxlength", "min", "minlength", "multiple", "pattern", "placeholder", "readonly", "required", "size", "src", "step", "width", "files"];
-  const _hoisted_3$7 = {
+  const _hoisted_3$5 = {
     key: 0,
     class: "helper"
   };
@@ -6753,7 +6751,7 @@
       }, null, 42, _hoisted_2$9), [
         [_directive_attributes, "input"]
       ]),
-      _ctx.schema.inputType.toLowerCase() === "color" || _ctx.schema.inputType.toLowerCase() === "range" ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_3$7, vue.toDisplayString(_ctx.value), 1)) : vue.createCommentVNode("", true)
+      _ctx.schema.inputType.toLowerCase() === "color" || _ctx.schema.inputType.toLowerCase() === "range" ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_3$5, vue.toDisplayString(_ctx.value), 1)) : vue.createCommentVNode("", true)
     ])), [
       [_directive_attributes, "wrapper"]
     ]);
@@ -6887,6 +6885,20 @@
   const _sfc_main$i = {
     name: "FieldSelect",
     mixins: [abstractField],
+    props: {
+      options: {
+        type: [Array, Object]
+      },
+      selected: {}
+    },
+    data() {
+      return {
+        selectedOption: {
+          name: "Please select an item"
+        },
+        showMenu: false
+      };
+    },
     computed: {
       selectOptions() {
         return this.schema.selectOptions || {};
@@ -6899,6 +6911,28 @@
       }
     },
     methods: {
+      text_truncate(str, length, ending) {
+        if (length == null) {
+          length = 100;
+        }
+        if (ending == null) {
+          ending = "...";
+        }
+        if (str.length > length) {
+          return str.substring(0, length - ending.length) + ending;
+        } else {
+          return str;
+        }
+      },
+      updateOption(option) {
+        this.value = this.getItemValue(option);
+        this.selectedOption = option;
+        this.showMenu = false;
+        this.$emit("updateOption", this.selectedOption);
+      },
+      toggleMenu() {
+        this.showMenu = !this.showMenu;
+      },
       formatValueToField(value) {
         if (lodashExports.isNil(value)) {
           return null;
@@ -6908,6 +6942,7 @@
       groupValues(values) {
         let array = [];
         let arrayElement = {};
+        array.push({ id: null, name: "Not selected" });
         values.forEach((item) => {
           arrayElement = null;
           if (item.group && lodashExports.isObject(item)) {
@@ -6941,6 +6976,15 @@
         }
         throw "Group name is missing! https://icebob.gitbooks.io/vueformgenerator/content/fields/select.html#select-field-with-object-items";
       },
+      getVuleItem(value) {
+        for (let key in this.items) {
+          if (this.items[key].id === value)
+            return this.items[key].name;
+          if (this.items[key] === value)
+            return this.items[key];
+        }
+        return "Please select an item";
+      },
       getItemValue(item) {
         if (lodashExports.isObject(item)) {
           if (typeof this.schema["selectOptions"] !== "undefined" && typeof this.schema["selectOptions"]["value"] !== "undefined") {
@@ -6973,47 +7017,36 @@
       }
     }
   };
-  const _hoisted_1$h = ["id", "disabled", "name"];
-  const _hoisted_2$7 = ["disabled"];
-  const _hoisted_3$6 = ["label"];
-  const _hoisted_4$2 = ["value"];
-  const _hoisted_5$1 = ["value"];
+  const _hoisted_1$h = { class: "customSelect" };
+  const _hoisted_2$7 = { class: "btn-group-select" };
+  const _hoisted_3$4 = {
+    key: 0,
+    class: "dropdown-select"
+  };
+  const _hoisted_4$2 = ["onClick"];
   function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
-    const _directive_attributes = vue.resolveDirective("attributes");
-    return vue.withDirectives((vue.openBlock(), vue.createElementBlock("select", {
-      id: _ctx.getFieldID(_ctx.schema),
-      "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.value = $event),
-      class: vue.normalizeClass(["form-select", _ctx.schema.fieldClasses]),
-      disabled: _ctx.disabled || null,
-      name: _ctx.schema.inputName
-    }, [
-      !$options.selectOptions.hideNoneSelectedText ? (vue.openBlock(), vue.createElementBlock("option", {
-        key: 0,
-        disabled: _ctx.schema.required || null,
-        value: null
-      }, vue.toDisplayString($options.selectOptions.noneSelectedText || "<Nothing selected>"), 9, _hoisted_2$7)) : vue.createCommentVNode("", true),
-      (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList($options.items, (item) => {
-        return vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: item }, [
-          item.group ? (vue.openBlock(), vue.createElementBlock("optgroup", {
-            key: 0,
-            label: $options.getGroupName(item)
-          }, [
-            item.ops ? (vue.openBlock(true), vue.createElementBlock(vue.Fragment, { key: 0 }, vue.renderList(item.ops, (i) => {
-              return vue.openBlock(), vue.createElementBlock("option", {
-                key: i,
-                value: $options.getItemValue(i)
-              }, vue.toDisplayString($options.getItemName(i)), 9, _hoisted_4$2);
-            }), 128)) : vue.createCommentVNode("", true)
-          ], 8, _hoisted_3$6)) : vue.createCommentVNode("", true),
-          !item.group ? (vue.openBlock(), vue.createElementBlock("option", {
-            key: 1,
-            value: $options.getItemValue(item)
-          }, vue.toDisplayString($options.getItemName(item)), 9, _hoisted_5$1)) : vue.createCommentVNode("", true)
-        ], 64);
-      }), 128))
-    ], 10, _hoisted_1$h)), [
-      [vue.vModelSelect, _ctx.value],
-      [_directive_attributes, "input"]
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$h, [
+      vue.createElementVNode("div", _hoisted_2$7, [
+        vue.createElementVNode("li", {
+          class: "dropdown-toggle-select",
+          onClick: _cache[0] || (_cache[0] = ($event) => $options.toggleMenu())
+        }, [
+          vue.createTextVNode(vue.toDisplayString($options.getVuleItem(_ctx.value)) + " ", 1),
+          _cache[1] || (_cache[1] = vue.createElementVNode("span", { class: "caret" }, null, -1))
+        ]),
+        $data.showMenu ? (vue.openBlock(), vue.createElementBlock("ul", _hoisted_3$4, [
+          (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList($options.items, (item) => {
+            return vue.openBlock(), vue.createElementBlock("li", {
+              key: $options.getItemValue(item)
+            }, [
+              vue.createElementVNode("a", {
+                href: "javascript:void(0)",
+                onClick: ($event) => $options.updateOption(item)
+              }, vue.toDisplayString($options.getItemName(item)), 9, _hoisted_4$2)
+            ]);
+          }), 128))
+        ])) : vue.createCommentVNode("", true)
+      ])
     ]);
   }
   const fieldSelect = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$i]]);
@@ -7063,6 +7096,9 @@
     name: "FieldTextArea",
     mixins: [abstractField],
     methods: {
+      textareaResize(event) {
+        this.$el.style.height = this.$el.scrollHeight + "px";
+      },
       onBlur(e) {
         this.$emit("blur", e.target.value, this.schema.model);
       }
@@ -7083,7 +7119,8 @@
       required: _ctx.schema.required,
       rows: _ctx.schema.rows || 2,
       name: _ctx.schema.inputName,
-      onBlur: _cache[1] || (_cache[1] = (...args) => $options.onBlur && $options.onBlur(...args))
+      onInput: _cache[1] || (_cache[1] = (...args) => $options.textareaResize && $options.textareaResize(...args)),
+      onBlur: _cache[2] || (_cache[2] = (...args) => $options.onBlur && $options.onBlur(...args))
     }, null, 42, _hoisted_1$f)), [
       [vue.vModelText, _ctx.value],
       [_directive_attributes, "input"]
@@ -7260,9 +7297,6 @@
   };
   const _hoisted_1$c = { class: "input-group date" };
   const _hoisted_2$5 = ["id", "autocomplete", "disabled", "placeholder", "readonly", "name"];
-  const _hoisted_3$5 = /* @__PURE__ */ vue.createElementVNode("span", { class: "input-group-addon" }, [
-    /* @__PURE__ */ vue.createElementVNode("span", { class: "glyphicon glyphicon-calendar" })
-  ], -1);
   function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$c, [
       vue.withDirectives(vue.createElementVNode("input", {
@@ -7278,7 +7312,9 @@
       }, null, 8, _hoisted_2$5), [
         [vue.vModelText, _ctx.value]
       ]),
-      _hoisted_3$5
+      _cache[1] || (_cache[1] = vue.createElementVNode("span", { class: "input-group-addon" }, [
+        vue.createElementVNode("span", { class: "glyphicon glyphicon-calendar" })
+      ], -1))
     ]);
   }
   const fieldDateTimePicker = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d]]);
@@ -7433,7 +7469,7 @@
   };
   const _hoisted_1$a = { class: "wrapper" };
   const _hoisted_2$4 = ["autocomplete", "disabled", "placeholder", "readonly"];
-  const _hoisted_3$4 = ["disabled", "name"];
+  const _hoisted_3$3 = ["disabled", "name"];
   function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$a, [
       vue.withDirectives(vue.createElementVNode("input", {
@@ -7455,7 +7491,7 @@
         disabled: _ctx.disabled || null,
         name: _ctx.schema.inputName,
         onChange: _cache[1] || (_cache[1] = (...args) => $options.fileChanged && $options.fileChanged(...args))
-      }, null, 40, _hoisted_3$4)) : vue.createCommentVNode("", true),
+      }, null, 40, _hoisted_3$3)) : vue.createCommentVNode("", true),
       vue.createElementVNode("div", {
         class: "preview",
         style: vue.normalizeStyle($options.previewStyle)
@@ -7805,7 +7841,7 @@
   };
   const _hoisted_1$5 = ["disabled", "multiple", "title", "name"];
   const _hoisted_2$3 = ["disabled", "selected"];
-  const _hoisted_3$3 = ["value"];
+  const _hoisted_3$2 = ["value"];
   function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.withDirectives((vue.openBlock(), vue.createElementBlock("select", {
       "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.value = $event),
@@ -7826,7 +7862,7 @@
         return vue.openBlock(), vue.createElementBlock("option", {
           key: $options.getItemValue(item),
           value: $options.getItemValue(item)
-        }, vue.toDisplayString($options.getItemName(item)), 9, _hoisted_3$3);
+        }, vue.toDisplayString($options.getItemName(item)), 9, _hoisted_3$2);
       }), 128))
     ], 8, _hoisted_1$5)), [
       [vue.vModelSelect, _ctx.value]
@@ -7948,7 +7984,6 @@
   };
   const _hoisted_1$2 = ["id", "autocomplete", "disabled", "name"];
   const _hoisted_2$2 = ["data-on", "data-off", "for"];
-  const _hoisted_3$2 = /* @__PURE__ */ vue.createElementVNode("span", { class: "handle" }, null, -1);
   function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("label", null, [
       vue.withDirectives(vue.createElementVNode("input", {
@@ -7967,7 +8002,7 @@
         "data-off": _ctx.schema.textOff || "Off",
         for: _ctx.getFieldID(_ctx.schema)
       }, null, 8, _hoisted_2$2),
-      _hoisted_3$2
+      _cache[1] || (_cache[1] = vue.createElementVNode("span", { class: "handle" }, null, -1))
     ]);
   }
   const fieldSwitch = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3]]);
@@ -8228,27 +8263,25 @@
     key: 0,
     class: "help"
   };
-  const _hoisted_4$1 = /* @__PURE__ */ vue.createElementVNode("i", { class: "icon" }, null, -1);
-  const _hoisted_5 = { class: "helpText" };
-  const _hoisted_6 = { class: "field-wrap" };
-  const _hoisted_7 = {
+  const _hoisted_4$1 = { class: "helpText" };
+  const _hoisted_5$1 = { class: "field-wrap" };
+  const _hoisted_6$1 = {
     key: 0,
     class: "buttons"
   };
-  const _hoisted_8 = ["type", "onClick", "textContent"];
-  const _hoisted_9 = {
+  const _hoisted_7 = ["type", "onClick", "textContent"];
+  const _hoisted_8 = {
     key: 1,
     class: "hint"
   };
-  const _hoisted_10 = ["innerHTML"];
-  const _hoisted_11 = {
+  const _hoisted_9 = ["innerHTML"];
+  const _hoisted_10 = {
     key: 2,
     class: "notices help-block"
   };
-  const _hoisted_12 = /* @__PURE__ */ vue.createElementVNode("i", { class: "mdi mdi-information" }, null, -1);
-  const _hoisted_13 = ["innerHTML"];
-  const _hoisted_14 = { key: 1 };
-  const _hoisted_15 = {
+  const _hoisted_11 = ["innerHTML"];
+  const _hoisted_12 = { key: 1 };
+  const _hoisted_13 = {
     key: 3,
     class: "errors help-block"
   };
@@ -8278,11 +8311,11 @@
           }, null, 2)) : vue.createCommentVNode("", true)
         ]),
         $props.field.help ? (vue.openBlock(), vue.createElementBlock("span", _hoisted_3$1, [
-          _hoisted_4$1,
-          vue.createElementVNode("div", _hoisted_5, vue.toDisplayString($props.field.help), 1)
+          _cache[0] || (_cache[0] = vue.createElementVNode("i", { class: "icon" }, null, -1)),
+          vue.createElementVNode("div", _hoisted_4$1, vue.toDisplayString($props.field.help), 1)
         ])) : vue.createCommentVNode("", true)
       ], 10, _hoisted_1$1)) : vue.createCommentVNode("", true),
-      vue.createElementVNode("div", _hoisted_6, [
+      vue.createElementVNode("div", _hoisted_5$1, [
         (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($options.getFieldType($props.field)), vue.mergeProps($options.getAttributes(_ctx.$attrs), {
           ref: "child",
           vfg: $props.vfg || null,
@@ -8294,7 +8327,7 @@
           onModelUpdated: $options.onModelUpdated,
           onValidated: $options.onFieldValidated
         }), null, 16, ["vfg", "disabled", "model", "schema", "form-options", "onBlur", "onModelUpdated", "onValidated"])),
-        $options.buttonVisibility($props.field) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_7, [
+        $options.buttonVisibility($props.field) ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_6$1, [
           (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList($props.field.buttons, (btn, index) => {
             return vue.openBlock(), vue.createElementBlock("button", {
               key: index,
@@ -8302,26 +8335,26 @@
               type: $options.getButtonType(btn),
               onClick: ($event) => $options.buttonClickHandler(btn, $props.field, $event),
               textContent: vue.toDisplayString(btn.label)
-            }, null, 10, _hoisted_8);
+            }, null, 10, _hoisted_7);
           }), 128))
         ])) : vue.createCommentVNode("", true)
       ]),
-      $props.field.hint ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_9, [
+      $props.field.hint ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_8, [
         $props.field.hintHtml ? (vue.openBlock(), vue.createElementBlock("span", {
           key: 0,
           innerHTML: $options.fieldHint($props.field)
-        }, null, 8, _hoisted_10)) : (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 1 }, [
+        }, null, 8, _hoisted_9)) : (vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: 1 }, [
           vue.createTextVNode(vue.toDisplayString($options.fieldHint($props.field) || ""), 1)
         ], 64))
       ])) : vue.createCommentVNode("", true),
-      $props.field.notice ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_11, [
-        _hoisted_12,
+      $props.field.notice ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_10, [
+        _cache[1] || (_cache[1] = vue.createElementVNode("i", { class: "mdi mdi-information" }, null, -1)),
         $props.field.noticeHtml ? (vue.openBlock(), vue.createElementBlock("span", {
           key: 0,
           innerHTML: $options.fieldNotice($props.field)
-        }, null, 8, _hoisted_13)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_14, vue.toDisplayString($options.fieldNotice($props.field) || ""), 1))
+        }, null, 8, _hoisted_11)) : (vue.openBlock(), vue.createElementBlock("span", _hoisted_12, vue.toDisplayString($options.fieldNotice($props.field) || ""), 1))
       ])) : vue.createCommentVNode("", true),
-      $options.fieldErrors($props.field).length > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_15, [
+      $options.fieldErrors($props.field).length > 0 ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_13, [
         (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList($options.fieldErrors($props.field), (error, index) => {
           return vue.openBlock(), vue.createElementBlock("span", { key: index }, vue.toDisplayString(error), 1);
         }), 128))
@@ -8369,6 +8402,7 @@
     data() {
       return {
         vfg: this,
+        showCollapse: [],
         errors: [],
         // Validation errors,
         children: vue.ref([])
@@ -8429,6 +8463,18 @@
       });
     },
     methods: {
+      /**
+       * check if we have to show the input all the time
+       */
+      showAlways(field) {
+        return !lodashExports.isNil(field.showAlways);
+      },
+      /**
+       * open and close groups
+       */
+      toggleList: function(key) {
+        this.showCollapse[key] = !this.showCollapse[key];
+      },
       /**
        * Determine visibility of the field.
        * @param field
@@ -8576,8 +8622,11 @@
   const _hoisted_2 = ["is"];
   const _hoisted_3 = ["is"];
   const _hoisted_4 = { key: 0 };
+  const _hoisted_5 = ["aria-controls", "aria-expanded", "onClick"];
+  const _hoisted_6 = ["aria-controls", "aria-expanded", "onClick"];
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_form_group = __unplugin_components_0;
+    const _component_b_collapse = vue.resolveComponent("b-collapse");
     return $props.schema != null ? (vue.openBlock(), vue.createElementBlock("div", _hoisted_1, [
       $props.schema.fields ? (vue.openBlock(), vue.createElementBlock("fieldset", {
         key: 0,
@@ -8601,17 +8650,58 @@
           ], 64);
         }), 128))
       ], 8, _hoisted_2)) : vue.createCommentVNode("", true),
-      (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList($options.groups, (group) => {
-        return vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: group }, [
+      (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList($options.groups, (group, key) => {
+        return vue.openBlock(), vue.createElementBlock(vue.Fragment, { key }, [
           $options.groupVisible(group) ? (vue.openBlock(), vue.createElementBlock("fieldset", {
             key: 0,
             is: $props.tag,
             class: vue.normalizeClass(_ctx.getFieldRowClasses(group))
           }, [
-            group.legend ? (vue.openBlock(), vue.createElementBlock("legend", _hoisted_4, vue.toDisplayString(group.legend), 1)) : vue.createCommentVNode("", true),
+            group.legend ? (vue.openBlock(), vue.createElementBlock("legend", _hoisted_4, [
+              vue.createTextVNode(vue.toDisplayString(group.legend) + " ", 1),
+              vue.createElementVNode("i", {
+                class: vue.normalizeClass($data.showCollapse[key] ? "fa fa-chevron-up" : "fa fa-chevron-down"),
+                "aria-controls": "collapse" + key,
+                "aria-expanded": $data.showCollapse[key] ? "true" : "false",
+                onClick: ($event) => $options.toggleList(key)
+              }, null, 10, _hoisted_5)
+            ])) : vue.createCommentVNode("", true),
+            vue.createVNode(_component_b_collapse, {
+              id: "collapse" + key,
+              modelValue: $data.showCollapse[key],
+              "onUpdate:modelValue": ($event) => $data.showCollapse[key] = $event,
+              class: "mt-2"
+            }, {
+              default: vue.withCtx(() => [
+                (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(group.fields, (field) => {
+                  return vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: field }, [
+                    $options.fieldVisible(field) && !$options.showAlways(field) ? (vue.openBlock(), vue.createBlock(_component_form_group, {
+                      key: 0,
+                      ref_for: true,
+                      ref: "children",
+                      vfg: $data.vfg,
+                      field,
+                      errors: $data.errors,
+                      model: $props.model,
+                      options: $props.options,
+                      onBlur: $options.onBlur,
+                      onValidated: $options.onFieldValidated,
+                      onModelUpdated: $options.onModelUpdated
+                    }, null, 8, ["vfg", "field", "errors", "model", "options", "onBlur", "onValidated", "onModelUpdated"])) : vue.createCommentVNode("", true)
+                  ], 64);
+                }), 128)),
+                vue.createElementVNode("i", {
+                  class: vue.normalizeClass($data.showCollapse[key] ? "fa fa-chevron-up pull-right" : "fa fa-chevron-down pull-right"),
+                  "aria-controls": "collapse" + key,
+                  "aria-expanded": $data.showCollapse[key] ? "true" : "false",
+                  onClick: ($event) => $options.toggleList(key)
+                }, null, 10, _hoisted_6)
+              ]),
+              _: 2
+            }, 1032, ["id", "modelValue", "onUpdate:modelValue"]),
             (vue.openBlock(true), vue.createElementBlock(vue.Fragment, null, vue.renderList(group.fields, (field) => {
               return vue.openBlock(), vue.createElementBlock(vue.Fragment, { key: field }, [
-                $options.fieldVisible(field) ? (vue.openBlock(), vue.createBlock(_component_form_group, {
+                $options.fieldVisible(field) && $options.showAlways(field) ? (vue.openBlock(), vue.createBlock(_component_form_group, {
                   key: 0,
                   ref_for: true,
                   ref: "children",
@@ -8632,10 +8722,454 @@
     ])) : vue.createCommentVNode("", true);
   }
   const formGenerator = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
+  const genericBvnPrefix = "BootstrapVueNext__";
+  const withBvnPrefix = (value, suffix = "") => {
+    const suffixWithTrail = `${suffix}___`;
+    return `${genericBvnPrefix}ID__${value}__${suffix ? suffixWithTrail : ""}`;
+  };
+  const createBvnRegistryInjectionKey = (name) => withBvnPrefix(`${name}__registry`);
+  const showHideRegistryKey = createBvnRegistryInjectionKey("showHide");
+  const rtlRegistryKey = createBvnRegistryInjectionKey("rtl");
+  const breadcrumbGlobalIndexKey = `${genericBvnPrefix}global_breadcrumb`;
+  const breadcrumbRegistryKey = createBvnRegistryInjectionKey("breadcrumb");
+  const modalManagerKey = createBvnRegistryInjectionKey("modalManager");
+  const defaultsKey = createBvnRegistryInjectionKey("defaults");
+  const orchestratorRegistryKey = createBvnRegistryInjectionKey("orchestrator");
+  typeof WorkerGlobalScope !== "undefined" && globalThis instanceof WorkerGlobalScope;
+  const _newOrchestratorRegistry = () => ({
+    store: vue.ref([]),
+    _isOrchestratorInstalled: vue.ref(false),
+    _isToastAppend: vue.ref(false)
+  });
+  const componentsWithExternalPath = {
+    BAccordion: "/components/BAccordion",
+    BAccordionItem: "/components/BAccordion",
+    BAlert: "/components/BAlert",
+    BApp: "/components/BApp",
+    BAvatar: "/components/BAvatar",
+    BAvatarGroup: "/components/BAvatar",
+    BBadge: "/components/BBadge",
+    BBreadcrumb: "/components/BBreadcrumb",
+    BBreadcrumbItem: "/components/BBreadcrumb",
+    BButton: "/components/BButton",
+    BButtonGroup: "/components/BButton",
+    BButtonToolbar: "/components/BButton",
+    BCloseButton: "/components/BButton",
+    BCard: "/components/BCard",
+    BCardBody: "/components/BCard",
+    BCardFooter: "/components/BCard",
+    BCardGroup: "/components/BCard",
+    BCardHeader: "/components/BCard",
+    BCardImg: "/components/BCard",
+    BCardSubtitle: "/components/BCard",
+    BCardText: "/components/BCard",
+    BCardTitle: "/components/BCard",
+    BCarousel: "/components/BCarousel",
+    BCarouselSlide: "/components/BCarousel",
+    BCol: "/components/BContainer",
+    BCollapse: "/components/BCollapse",
+    BContainer: "/components/BContainer",
+    BDropdown: "/components/BDropdown",
+    BDropdownDivider: "/components/BDropdown",
+    BDropdownForm: "/components/BDropdown",
+    BDropdownGroup: "/components/BDropdown",
+    BDropdownHeader: "/components/BDropdown",
+    BDropdownItem: "/components/BDropdown",
+    BDropdownItemButton: "/components/BDropdown",
+    BDropdownText: "/components/BDropdown",
+    BForm: "/components/BForm",
+    BFormCheckbox: "/components/BFormCheckbox",
+    BFormCheckboxGroup: "/components/BFormCheckbox",
+    BFormDatalist: "/components/BForm",
+    BFormFile: "/components/BFormFile",
+    BFormFloatingLabel: "/components/BForm",
+    BFormGroup: "/components/BFormGroup",
+    BFormInput: "/components/BFormInput",
+    BFormInvalidFeedback: "/components/BForm",
+    BFormRadio: "/components/BFormRadio",
+    BFormRadioGroup: "/components/BFormRadio",
+    BFormRating: "/components/BFormRating",
+    BFormRow: "/components/BForm",
+    BFormSelect: "/components/BFormSelect",
+    BFormSelectOption: "/components/BFormSelect",
+    BFormSelectOptionGroup: "/components/BFormSelect",
+    BFormSpinbutton: "/components/BFormSpinbutton",
+    BFormTag: "/components/BFormTags",
+    BFormTags: "/components/BFormTags",
+    BFormText: "/components/BForm",
+    BFormTextarea: "/components/BFormTextarea",
+    BFormValidFeedback: "/components/BForm",
+    BImg: "/components/BImg",
+    BInput: "/components/BFormInput",
+    BInputGroup: "/components/BInputGroup",
+    BInputGroupText: "/components/BInputGroup",
+    BListGroup: "/components/BListGroup",
+    BListGroupItem: "/components/BListGroup",
+    BModal: "/components/BModal",
+    BModalOrchestrator: "/components/BModal",
+    BNav: "/components/BNav",
+    BNavForm: "/components/BNav",
+    BNavItem: "/components/BNav",
+    BNavItemDropdown: "/components/BNav",
+    BNavText: "/components/BNav",
+    BNavbar: "/components/BNavbar",
+    BNavbarBrand: "/components/BNavbar",
+    BNavbarNav: "/components/BNavbar",
+    BNavbarToggle: "/components/BNavbar",
+    BOffcanvas: "/components/BOffcanvas",
+    BOverlay: "/components/BOverlay",
+    BOrchestrator: "/components/BApp",
+    BPagination: "/components/BPagination",
+    BPlaceholder: "/components/BPlaceholder",
+    BPlaceholderButton: "/components/BPlaceholder",
+    BPlaceholderCard: "/components/BPlaceholder",
+    BPlaceholderTable: "/components/BPlaceholder",
+    BPlaceholderWrapper: "/components/BPlaceholder",
+    BPopover: "/components/BPopover",
+    BProgress: "/components/BProgress",
+    BRow: "/components/BContainer",
+    BSpinner: "/components/BSpinner",
+    BTab: "/components/BTabs",
+    BTabs: "/components/BTabs",
+    BToast: "/components/BToast",
+    BToastOrchestrator: "/components/BToast",
+    BTooltip: "/components/BTooltip",
+    BLink: "/components/BLink",
+    BProgressBar: "/components/BProgress",
+    BTableSimple: "/components/BTable",
+    BTableLite: "/components/BTable",
+    BTable: "/components/BTable",
+    BTbody: "/components/BTable",
+    BTd: "/components/BTable",
+    BTh: "/components/BTable",
+    BThead: "/components/BTable",
+    BTfoot: "/components/BTable",
+    BTr: "/components/BTable",
+    BPopoverOrchestrator: "/components/BPopover"
+  };
+  const componentNames = Object.freeze(
+    Object.keys(componentsWithExternalPath)
+  );
+  const directivesWithExternalPath = {
+    vBColorMode: "/directives/BColorMode",
+    vBModal: "/directives/BModal",
+    vBPopover: "/directives/BPopover",
+    vBScrollspy: "/directives/BScrollspy",
+    vBToggle: "/directives/BToggle",
+    vBTooltip: "/directives/BTooltip"
+  };
+  const directiveNames = Object.freeze(
+    Object.keys(directivesWithExternalPath)
+  );
+  const composablesWithExternalPath = {
+    useBreadcrumb: "/composables/useBreadcrumb",
+    useColorMode: "/composables/useColorMode",
+    useModal: "/composables/useModal",
+    useModalController: "/composables/useModal",
+    useScrollLock: "/composables/useScrollLock",
+    useScrollspy: "/composables/useScrollspy",
+    useToast: "/composables/useToast",
+    useToastController: "/composables/useToast",
+    useToggle: "/composables/useToggle",
+    usePopover: "/composables/usePopover",
+    usePopoverController: "/composables/usePopover",
+    useRegistry: "/composables/useRegistry",
+    useProvideDefaults: "/composables/useProvideDefaults",
+    useOrchestratorRegistry: "/composables/orchestratorShared"
+  };
+  Object.freeze(
+    Object.keys(composablesWithExternalPath)
+  );
+  vue.defineComponent({
+    name: "ConditionalTeleport",
+    inheritAttrs: false,
+    props: {
+      to: {
+        type: [String, Object],
+        default: null
+      },
+      disabled: {
+        type: Boolean,
+        required: true
+      }
+    },
+    slots: Object,
+    setup(props, { slots }) {
+      return () => {
+        var _a, _b;
+        return !props.to ? (_a = slots.default) == null ? void 0 : _a.call(slots, {}) : vue.h(vue.Teleport, { to: props.to, disabled: props.disabled || !props.to }, [(_b = slots.default) == null ? void 0 : _b.call(slots, {})]);
+      };
+    }
+  });
+  vue.defineComponent({
+    name: "ConditionalWrapper",
+    inheritAttrs: false,
+    props: {
+      tag: {
+        type: String,
+        default: "div"
+      },
+      skip: {
+        type: Boolean,
+        required: true
+      }
+    },
+    slots: Object,
+    setup(props, { slots, attrs }) {
+      return () => {
+        var _a, _b;
+        return props.skip ? (_a = slots.default) == null ? void 0 : _a.call(slots, {}) : vue.h(props.tag, { ...attrs }, [(_b = slots.default) == null ? void 0 : _b.call(slots, {})]);
+      };
+    }
+  });
+  Object.freeze(
+    Object.keys({
+      bordered: 0,
+      borderless: 0,
+      borderVariant: 0,
+      captionTop: 0,
+      dark: 0,
+      fixed: 0,
+      hover: 0,
+      id: 0,
+      noBorderCollapse: 0,
+      outlined: 0,
+      responsive: 0,
+      small: 0,
+      stacked: 0,
+      stickyHeader: 0,
+      striped: 0,
+      stripedColumns: 0,
+      variant: 0,
+      tableAttrs: 0,
+      tableClass: 0
+    })
+  );
+  Object.freeze(
+    Object.keys({
+      align: 0,
+      caption: 0,
+      detailsTdClass: 0,
+      fieldColumnClass: 0,
+      fields: 0,
+      footClone: 0,
+      footRowVariant: 0,
+      footVariant: 0,
+      headRowVariant: 0,
+      headVariant: 0,
+      items: 0,
+      labelStacked: 0,
+      modelValue: 0,
+      primaryKey: 0,
+      tbodyClass: 0,
+      tbodyTrAttrs: 0,
+      tbodyTrClass: 0,
+      tfootClass: 0,
+      tfootTrClass: 0,
+      theadClass: 0,
+      theadTrClass: 0
+    })
+  );
+  const _newShowHideRegistry = () => {
+    const values = vue.ref(/* @__PURE__ */ new Map());
+    const register = ({
+      id,
+      component,
+      value,
+      toggle,
+      show,
+      hide,
+      registerTrigger,
+      unregisterTrigger
+    }) => {
+      values.value.set(id, {
+        id,
+        component,
+        value: vue.readonly(value),
+        toggle,
+        show,
+        hide,
+        registerTrigger,
+        unregisterTrigger
+      });
+      return {
+        unregister() {
+          values.value.delete(id);
+        },
+        updateId(newId, oldId) {
+          const existingValue = values.value.get(oldId);
+          if (existingValue) {
+            values.value.set(newId, { ...existingValue, id: newId });
+            values.value.delete(oldId);
+          }
+        }
+      };
+    };
+    return {
+      register,
+      values
+    };
+  };
+  const bvKey = "bootstrap-vue-next";
+  const parseActiveImports = (options, values) => {
+    const { all, ...others } = options;
+    const valuesCopy = {};
+    if (all) {
+      values.forEach((el) => {
+        valuesCopy[el] = all;
+      });
+    }
+    const merge = { ...valuesCopy, ...others };
+    return Object.entries(merge).filter(([name, value]) => !!value && values.includes(name)).map(([name]) => name);
+  };
+  const usedComponents = /* @__PURE__ */ new Set();
+  const usedDirectives = /* @__PURE__ */ new Set();
+  Object.assign(
+    ({
+      aliases = {},
+      directives = true,
+      components = true
+    } = {}) => {
+      const selectedComponents = typeof components === "boolean" ? { all: components } : components;
+      const compImports = parseActiveImports(selectedComponents, componentNames).reduce(
+        (map, name) => {
+          map.set(name, `${bvKey}${componentsWithExternalPath[name]}`);
+          return map;
+        },
+        /* @__PURE__ */ new Map()
+      );
+      const selectedDirectives = typeof directives === "boolean" ? { all: directives } : directives;
+      const dirImports = parseActiveImports(selectedDirectives, directiveNames).reduce(
+        (map, directive) => {
+          const key = directive.toLowerCase().startsWith("v") ? directive : `v${directive}`;
+          map.set(key, `${bvKey}${directivesWithExternalPath[key]}`);
+          return map;
+        },
+        /* @__PURE__ */ new Map()
+      );
+      const resolvers = [
+        {
+          type: "component",
+          resolve(name) {
+            const destination = compImports.get(name);
+            const aliasDestination = compImports.get(aliases[name]);
+            if (aliasDestination) {
+              const val = aliases[name];
+              usedComponents.add(val);
+              return {
+                name: val,
+                from: aliasDestination
+              };
+            }
+            if (destination) {
+              usedComponents.add(name);
+              return {
+                name,
+                from: destination
+              };
+            }
+          }
+        },
+        {
+          type: "directive",
+          resolve(name) {
+            const prefixedName = `v${name}`;
+            const destination = dirImports.get(prefixedName);
+            if (destination) {
+              usedDirectives.add(prefixedName);
+              return {
+                name: prefixedName,
+                from: destination
+              };
+            }
+          }
+        }
+      ];
+      return resolvers;
+    },
+    {
+      __usedComponents: usedComponents,
+      __usedDirectives: usedDirectives
+    }
+  );
+  const rtlPlugin = {
+    install(app, options) {
+      var _a, _b;
+      const rtlDefault = false;
+      const localeDefault = void 0;
+      const rtlInitial = typeof (options == null ? void 0 : options.rtl) === "boolean" ? rtlDefault : ((_a = options == null ? void 0 : options.rtl) == null ? void 0 : _a.rtlInitial) ?? rtlDefault;
+      const localeInitial = typeof (options == null ? void 0 : options.rtl) === "boolean" ? localeDefault : ((_b = options == null ? void 0 : options.rtl) == null ? void 0 : _b.localeInitial) ?? localeDefault;
+      const isRtl = vue.ref(rtlInitial);
+      const locale = vue.ref(localeInitial);
+      app.provide(rtlRegistryKey, { isRtl, locale });
+    }
+  };
+  const registryPlugin = {
+    install(app) {
+      const { register, values } = _newShowHideRegistry();
+      app.provide(showHideRegistryKey, { register, values });
+      const items = vue.ref({
+        [breadcrumbGlobalIndexKey]: []
+      });
+      const reset = (key = breadcrumbGlobalIndexKey) => {
+        items.value[key] = [];
+      };
+      app.provide(breadcrumbRegistryKey, { items, reset });
+      const stack = vue.ref(/* @__PURE__ */ new Map());
+      const countStack = vue.computed(() => stack.value.size);
+      const valuesStack = vue.computed(() => [...stack.value.values()]);
+      const lastStack = vue.computed(() => valuesStack.value[valuesStack.value.length - 1]);
+      const pushStack = (modal) => {
+        stack.value.set(modal.uid, modal);
+      };
+      const removeStack = (modal) => {
+        stack.value.delete(modal.uid);
+      };
+      const registry = vue.ref(/* @__PURE__ */ new Map());
+      const pushRegistry = (modal) => {
+        registry.value.set(modal.uid, modal);
+      };
+      const removeRegistry = (modal) => {
+        registry.value.delete(modal.uid);
+      };
+      app.provide(modalManagerKey, {
+        countStack,
+        lastStack,
+        registry: vue.computed(() => registry.value),
+        stack: valuesStack,
+        pushStack,
+        removeStack,
+        pushRegistry,
+        removeRegistry
+      });
+    }
+  };
+  const orchestratorPlugin = {
+    install(app) {
+      const orchestratorRegistry = _newOrchestratorRegistry();
+      app.provide(orchestratorRegistryKey, orchestratorRegistry);
+    }
+  };
+  const createBootstrap = (pluginData = {}) => ({
+    install(app) {
+      if ((pluginData.registries ?? true) === true) {
+        app.use(registryPlugin, pluginData);
+      }
+      if ((pluginData.rtl ?? true) === true || typeof pluginData.rtl === "object") {
+        app.use(rtlPlugin, pluginData);
+      }
+      if ((pluginData.orchestrator ?? true) === true) {
+        app.use(orchestratorPlugin);
+      }
+      const val = (pluginData == null ? void 0 : pluginData.components) ?? {};
+      app.provide(defaultsKey, vue.ref(val));
+    }
+  });
   const main = {
     component: formGenerator,
     validators,
     install: (app, options) => {
+      app.use(createBootstrap());
       app.component("VueFormGenerator", formGenerator);
       if (options && options.validators) {
         for (const key in options.validators) {

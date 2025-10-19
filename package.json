@@ -47,5 +47,9 @@
     "vue": "^3.2.37",
     "vue-eslint-parser": "^9.4.3",
     "vue-tsc": "^0.38.4"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.1.0",
+    "bootstrap-vue-next": "^0.40.6"
   }
 }
