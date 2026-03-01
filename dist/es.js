@@ -6228,18 +6228,27 @@ const abstractField = {
     return {
       errors: [],
       debouncedValidateFunc: null,
-      debouncedFormatFunc: null
+      debouncedFormatFunc: null,
+      _getterVersion: 0
     };
   },
   directives: {
     attributes: vAttributes
   },
+  watch: {
+    model: {
+      deep: true,
+      handler() {
+        this._getterVersion++;
+      }
+    }
+  },
   computed: {
     value: {
-      cache: false,
       get() {
         let val;
         if (lodashExports.isFunction(lodashExports.get(this.schema, "get"))) {
+          this._getterVersion;
           val = this.schema.get(this.model);
         } else {
           val = lodashExports.get(this.model, this.schema.model);

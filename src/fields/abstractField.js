@@ -23,18 +23,29 @@ export default {
     return {
       errors: [],
       debouncedValidateFunc: null,
-      debouncedFormatFunc: null
+      debouncedFormatFunc: null,
+      _getterVersion: 0
     }
   },
   directives: {
     attributes: vAttributes
   },
+  watch: {
+    model: {
+      deep: true,
+      handler() {
+        this._getterVersion++
+      }
+    }
+  },
   computed: {
     value: {
-      cache: false,
       get () {
         let val
         if (isFunction(objGet(this.schema, 'get'))) {
+          // Reference _getterVersion to invalidate this computed when model changes deeply.
+          // This replaces Vue 2's cache:false which is silently ignored in Vue 3.
+          this._getterVersion
           val = this.schema.get(this.model)
         } else {
           val = objGet(this.model, this.schema.model)
