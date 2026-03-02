@@ -23,29 +23,23 @@ export default {
     return {
       errors: [],
       debouncedValidateFunc: null,
-      debouncedFormatFunc: null,
-      _getterVersion: 0
+      debouncedFormatFunc: null
     }
   },
   directives: {
     attributes: vAttributes
-  },
-  watch: {
-    model: {
-      deep: true,
-      handler() {
-        this._getterVersion++
-      }
-    }
   },
   computed: {
     value: {
       get () {
         let val
         if (isFunction(objGet(this.schema, 'get'))) {
-          // Reference _getterVersion to invalidate this computed when model changes deeply.
-          // This replaces Vue 2's cache:false which is silently ignored in Vue 3.
-          this._getterVersion
+          // Reference a shared reactive counter on the model to invalidate this computed
+          // when any field value changes via user input. This replaces Vue 2's cache:false
+          // which is silently ignored in Vue 3. The counter is only incremented by the
+          // value setter (user input), NOT by getter-driven model changes, preventing
+          // expensive cascading re-evaluations.
+          this.model._vfgVersion
           val = this.schema.get(this.model)
         } else {
           val = objGet(this.model, this.schema.model)
@@ -153,6 +147,11 @@ export default {
       }
 
       if (changed) {
+        // Increment shared counter to invalidate all getter computeds across all fields.
+        // This is the ONLY place _vfgVersion is incremented — getter-driven model changes
+        // do NOT increment it, preventing cascading re-evaluations.
+        this.model._vfgVersion = (this.model._vfgVersion || 0) + 1
+
         this.$emit('modelUpdated', newValue, this.schema.model)
 
         if (isFunction(this.schema.onChanged)) {
