@@ -147,11 +147,6 @@ export default {
       }
 
       if (changed) {
-        // Increment shared counter to invalidate all getter computeds across all fields.
-        // This is the ONLY place _vfgVersion is incremented — getter-driven model changes
-        // do NOT increment it, preventing cascading re-evaluations.
-        this.model._vfgVersion = (this.model._vfgVersion || 0) + 1
-
         this.$emit('modelUpdated', newValue, this.schema.model)
 
         if (isFunction(this.schema.onChanged)) {

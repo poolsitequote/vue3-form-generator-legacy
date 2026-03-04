@@ -6336,7 +6336,6 @@
           changed = true;
         }
         if (changed) {
-          this.model._vfgVersion = (this.model._vfgVersion || 0) + 1;
           this.$emit("modelUpdated", newValue, this.schema.model);
           if (lodashExports.isFunction(this.schema.onChanged)) {
             this.schema.onChanged.call(this, this.model, newValue, oldValue, this.schema);
